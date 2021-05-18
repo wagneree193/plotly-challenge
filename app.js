@@ -3,23 +3,28 @@
 function forPlots(id){
     d3.json("samples.json").then((importedData)=>{
         console.log(importedData);
-        var metadata = importedData.metadata;
-        console.log(metadata);
+        // var metadata = importedData.metadata;
+        // console.log(metadata);
 
-        var sampleId = metadata.samples[0].otu_ids;
+        var searchResult = importedData.samples.filter(demo => demo.id.toString()===id)[0];
+
+        // var sampleId = searchResult.samples[0].otu_ids;
+        var sampleId = searchResult.otu_ids;
         console.log(sampleId);
 
-        var sampleValues = metadata.samples[0].sample_values;
+        // var sampleValues = searchResult.samples[0].sample_values;
+        var sampleValues = searchResult.sample_values;
         console.log(sampleValues);
         
-        var otuLabels = metadata.samples[0].otu_labels;
+        // var otuLabels = searchResult.samples[0].otu_labels;
+        var otuLabels = searchResult.otu_labels;
         console.log(otuLabels) ;      
-    });      
+         
 
 // organize plot data 
 
     // top 10 otus
-    var topOtu = (sampleID.slice(0,10)).reverse();
+    var topOtu = (sampleId.slice(0,10)).reverse();
     // format IDs
     var otuId = topOtu.map(d => "OTU" + d);
     console.log("id:" + otuId);
@@ -92,7 +97,9 @@ function forPlots(id){
 
     Plotly.newPlot("bubble", data1, layout1);
 
-};
+});
+
+}; 
 
 // display sample metadata (ie demographic info)
 // display each key-value pair from the metadata json object somewhere on the page
@@ -131,15 +138,16 @@ function  init() {
     var selector = d3.select("#selDataset");
 
     d3.json("samples.json").then((importedData) => {
-        var metadata = importedData.metadata;
-        metadata.names.forEach((name) => {
-            selector.append("option").text("name").property("value");
+        var namesData = importedData.names;
+        console.log(importedData);
+        namesData.forEach((name) => {
+            selector.append("option").text(name).property("value", name);
         });
 
     // display data and plots to page
 
-    forPlots(data.names[0]);
-    getDemo(data.names[0]);
+    forPlots(importedData.names[0]);
+    getDemo(importedData.names[0]);
 
     });
 }
