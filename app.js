@@ -2,7 +2,7 @@
 // create variables for all of the plot elements 
 function forPlots(id){
     d3.json("samples.json").then((importedData)=>{
-        // console.log(importedData);
+        console.log(importedData);
         var metadata = importedData.metadata;
         console.log(metadata);
 
@@ -14,7 +14,7 @@ function forPlots(id){
         
         var otuLabels = metadata.samples[0].otu_labels;
         console.log(otuLabels) ;      
-       
+    });      
 
 // organize plot data 
 
@@ -31,7 +31,7 @@ function forPlots(id){
     // top 10 labels 
     var labels = otuLabels.slice(0,10);
     console.log("labels:" + labels);
-});
+
     // create a horizontal bar chart with dropdown menu to display top 10 OTUs found in individual
     // sample_values as values for bar chart
     // otu_ids as labels
@@ -131,8 +131,8 @@ function  init() {
     var selector = d3.select("#selDataset");
 
     d3.json("samples.json").then((importedData) => {
-
-        data.names.forEach(function(name){
+        var metadata = importedData.metadata;
+        metadata.names.forEach((name) => {
             selector.append("option").text("name").property("value");
         });
 
