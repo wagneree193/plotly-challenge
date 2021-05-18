@@ -1,7 +1,7 @@
 // use D3 to read in the data
 // create variables for all of the plot elements 
 function forPlots(id){
-    d3.json("data/samples.json").then((importedData)=>{
+    d3.json("samples.json").then((importedData)=>{
         // console.log(importedData);
         var metadata = importedData.metadata;
         console.log(metadata);
@@ -87,6 +87,7 @@ function forPlots(id){
     var layout1 = {
         title: "OTU Values per Sample",
         xaxis: {title: "OTU ID"},
+        yaxis: {title: "Sample Value"},
         height: 500,
         width: 1000,
     };
@@ -97,10 +98,53 @@ function forPlots(id){
 
 // display sample metadata (ie demographic info)
 // display each key-value pair from the metadata json object somewhere on the page
+// ID, ETHNICITY, GENDER, AGE , LOCATION, BBTYPE, WASH FREQ
+// Create a function that will filter by id 
 
-// filter by id
-        // var searchResult = metadata.filter(demo => demo.id.toString()=== id)[0];
+function getDemo(id) {
+    d3.json("samples.json").then((importedData)=>{
+        // console.log(importedData);
+        var metadata = importedData.metadata;
+        // console.log(metadata);
+        var searchResult = metadata.filter(demo => demo.id.toString()=== id)[0];
+        // select panel from html to drop the data
+        var demoInfo = d3.select("#sample-metadata");
+
+        // clear the panel 
+        demoInfo.html("");
+
+        // append data from filter to the panel
+        Object.entries(searchResult).forEach((key) => {demoInfo.append("p").text(key [0]. toLowerCase() + ":" + key[1]);
+    });
+});
+
+};       
 
 // set all plots to update any time a new sample is selected 
 
+function plotUpdate(id) {
+    forPlots(id);
+    getDemo(id);
+}
+
+// inital data rendering
+
+function  init() {
+    var selector = d3.select("#selDataset");
+
+    d3.json("samples/json").then((importedData) => {
+
+        data.names.forEach(function(name){
+            selector.append("option").text("name").property("value");
+        });
+
+    // display data and plots to page
+
+    forPlots(data.names[0]);
+    getDemo(data.names[0]);
+
+    });
+}
+
+init();
 
