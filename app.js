@@ -1,5 +1,5 @@
 // use D3 to read in the data
-// start with a function that will let you filter by sample id since that is what we will be sorting on for the plots
+// create variables for all of the plot elements 
 function idFilter(id){
     d3.json("data/samples.json").then((importedData)=>{
         // console.log(importedData);
@@ -9,10 +9,11 @@ function idFilter(id){
         var sampleId = metadata.samples[0].otu_ids;
         // console.log(sampleID)
 
-        var sampleValues = metadata.samples[0].sample_values
-
+        var sampleValues = metadata.samples[0].sample_values;
+        // console.log(sampleValues)
         
-
+        var otuLabels = metadata.samples[0].otu_labels;
+        // console.log(otuLabels)
     
     })
 };     
