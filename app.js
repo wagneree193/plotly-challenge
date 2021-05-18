@@ -7,16 +7,14 @@ function forPlots(id){
         console.log(metadata);
 
         var sampleId = metadata.samples[0].otu_ids;
-        // console.log(sampleID);
+        console.log(sampleId);
 
         var sampleValues = metadata.samples[0].sample_values;
-        // console.log(sampleValues);
+        console.log(sampleValues);
         
         var otuLabels = metadata.samples[0].otu_labels;
-        // console.log(otuLabels) ;      
-    
-    });
-     
+        console.log(otuLabels) ;      
+       
 
 // organize plot data 
 
@@ -33,7 +31,7 @@ function forPlots(id){
     // top 10 labels 
     var labels = otuLabels.slice(0,10);
     console.log("labels:" + labels);
-    
+});
     // create a horizontal bar chart with dropdown menu to display top 10 OTUs found in individual
     // sample_values as values for bar chart
     // otu_ids as labels
@@ -121,8 +119,8 @@ function getDemo(id) {
 };       
 
 // set all plots to update any time a new sample is selected 
-
-function plotUpdate(id) {
+// called optionChanged in the html
+function optionChanged(id) {
     forPlots(id);
     getDemo(id);
 }
@@ -132,7 +130,7 @@ function plotUpdate(id) {
 function  init() {
     var selector = d3.select("#selDataset");
 
-    d3.json("samples/json").then((importedData) => {
+    d3.json("samples.json").then((importedData) => {
 
         data.names.forEach(function(name){
             selector.append("option").text("name").property("value");
