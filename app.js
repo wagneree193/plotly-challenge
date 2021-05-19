@@ -3,7 +3,7 @@
 function forPlots(id){
     d3.json("samples.json").then((importedData)=>{
         console.log(importedData);
-        // var metadata = importedData.metadata;
+        var metadata = importedData.metadata;
         // console.log(metadata);
 
         var searchResult = importedData.samples.filter(demo => demo.id.toString()===id)[0];
@@ -18,7 +18,10 @@ function forPlots(id){
         
         // var otuLabels = searchResult.samples[0].otu_labels;
         var otuLabels = searchResult.otu_labels;
-        console.log(otuLabels) ;      
+        console.log(otuLabels) ; 
+        
+        var washes = metadata.filter(demo=> demo.id.toString()===id)[0];
+        var wfreq = washes.wfreq;
          
 
 // organize plot data 
@@ -96,6 +99,41 @@ function forPlots(id){
     };
 
     Plotly.newPlot("bubble", data1, layout1);
+
+// gauge chart
+var data2 = [
+    {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: wfreq,
+      title: { text: "Bellybutton Washing Frequency" },
+      type: "indicator",
+      mode: "gauge+number",
+      delta: { reference: 380 },
+      gauge: {
+        axis: { range: [null, 9] },
+        steps: [
+          { range: [0, 1], color: "white" },
+          { range: [1, 2], color: "white" },
+          { range: [2, 3], color: "WhiteSmoke" },
+          { range: [3, 4], color: "#F0F0F0" },
+          { range: [4, 5], color: "#E8E8E8" },
+          { range: [5, 6], color: "#E0E0E0" },
+          { range: [6, 7], color: "gainsboro" },
+          { range: [7, 8], color: "#D8D8D8" },
+          { range: [8, 9], color: "lightgray"}         
+        ],
+        threshold: {
+          line: { color: "red", width: 4 },
+          thickness: 0.75,
+          value: 490
+        }
+      }
+    }
+  ];
+  
+  var layout2 = { width: 600, height: 450, margin: { t: 20, b: 20, l:40, r:40 } 
+};
+  Plotly.newPlot('gauge', data2, layout2);
 
 });
 
